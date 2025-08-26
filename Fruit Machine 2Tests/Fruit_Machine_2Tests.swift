@@ -9,28 +9,55 @@ import XCTest
 @testable import Fruit_Machine_2
 
 final class Fruit_Machine_2Tests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func testWinningGameWins() {
+        let player = Player()
+        let fruitMachine = FruitMachineGame([MockSlot(), MockSlot(), MockSlot(), MockSlot()])
+        try? fruitMachine.startGame(player: player)
+        XCTAssertTrue(fruitMachine.moneyValue == 0)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testLosingGameLoses() {
+        let player = Player()
+        let fruitMachine = FruitMachineGame()
+        try? fruitMachine.startGame([.blue, .black, .black, .black], player: player)
+        XCTAssertTrue(fruitMachine.moneyValue != 0)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testMoneyLoadedCorrectly() {
+        let player = Player()
+        let fruitMachine = FruitMachineGame()
+        fruitMachine.moneyValue = 10
+        try? fruitMachine.startGame([.blue, .black, .black, .black], player: player)
+        XCTAssertEqual(fruitMachine.moneyValue, 11)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testUserHasNoMoneyToPlay() {
+        let player = Player()
+        player.wallet = 0
+        let fruitMachine = FruitMachineGame()
+        do {
+            try fruitMachine.startGame(player: player)
+        }
+        catch {
+            
         }
     }
 
+}
+
+class MockSlot: SlotProtocol {
+    
+    let shouldWin: Bool
+    
+    init(_ shouldWin: Bool = false) {
+        self.shouldWin = shouldWin
+    }
+    
+    var colour: SlotColour?
+    
+    func selectColour(_ colour: SlotColour?) {
+        self.colour = .black
+    }
+    
 }

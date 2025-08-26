@@ -8,12 +8,25 @@
 class FruitMachineGame: GameProtocol {
     
     var player: Player?
-    var slots: [Slot] = [Slot(), Slot(), Slot(), Slot()]
-    var moneyValue: Int = 0
+    var slots: [SlotProtocol] = []
+    var moneyValue: Int = 10
     
-    func startGame() {
-        slots.forEach { slot in
-            slot.selectColour()
+    
+    init(_ slots: [SlotProtocol] = [Slot(), Slot(), Slot(), Slot()]) {
+        self.slots = slots
+    }
+    
+    func startGame(_ values: [SlotColour] = [], player: Player) throws {
+        self.player = player
+        print(player.wallet)
+        if (player.wallet <= 0) {
+            throw GameError.UserHasNoMoney
+        }
+        player.wallet -= 1
+        moneyValue += 1
+        slots.enumerated().forEach { (i, slot) in
+            let colour = getValue(from: values, position: i)
+            slot.selectColour(colour)
         }
         
         let colours = slots.map({$0.colour})
@@ -27,8 +40,15 @@ class FruitMachineGame: GameProtocol {
         
     }
     
+    func getValue(from values: [SlotColour], position: Int) -> SlotColour {
+        if (values.count > position) {
+            return values[position]
+        }
+        return SlotColour.allCases.randomElement()!
+    }
+    
     func playerWins() {
-        
+        moneyValue = 0
     }
     
     func playerLoses() {
@@ -39,4 +59,8 @@ class FruitMachineGame: GameProtocol {
         
     }
     
+}
+
+enum GameError: Error {
+    case UserHasNoMoney
 }

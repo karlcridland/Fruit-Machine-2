@@ -29,9 +29,25 @@
 		6D8B602D2E5E088A00213EE1 /* Fruit Machine 2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fruit Machine 2UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6D8B60492E5E08E000213EE1 /* Exceptions for "Fruit Machine 2" folder in "Fruit Machine 2Tests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				FruitMachineGame.swift,
+				GameProtocol.swift,
+				Player.swift,
+				Slot.swift,
+			);
+			target = 6D8B60222E5E088A00213EE1 /* Fruit Machine 2Tests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6D8B60132E5E088900213EE1 /* Fruit Machine 2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6D8B60492E5E08E000213EE1 /* Exceptions for "Fruit Machine 2" folder in "Fruit Machine 2Tests" target */,
+			);
 			path = "Fruit Machine 2";
 			sourceTree = "<group>";
 		};
